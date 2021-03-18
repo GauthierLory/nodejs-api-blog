@@ -1,0 +1,4 @@
+%syntax-version=1.0.0
+%project=api-blog
+
+01-base-schema 2021-03-18T14:56:07Z Etudiant O'clock <student@teleporter> # Ajout du schema de base de la bdd

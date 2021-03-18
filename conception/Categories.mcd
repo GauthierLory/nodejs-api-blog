@@ -1,0 +1,5 @@
+BILLET: slug, titre, extrait, contenu
+:
+
+APPARTIENT, 0N CATEGORIE, 11 BILLET
+CATEGORIE: label, route

@@ -1,0 +1,53 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg width="224" height="204" view_box="0 0 224 204"
+xmlns="http://www.w3.org/2000/svg"
+xmlns:link="http://www.w3.org/1999/xlink">\n\n<desc>Généré par Mocodo 2.3.7 le Thu, 18 Mar 2021 07:44:25</desc>
+
+<rect id="frame" x="0" y="0" width="224" height="204" fill="#ffffff" stroke="none" stroke-width="0"/>
+
+<!-- Association APPARTIENT -->
+<line x1="174" y1="161" x2="55" y2="161" stroke="#878787" stroke-width="2"/>
+<text x="106" y="178.0" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
+<line x1="55" y1="60" x2="55" y2="161" stroke="#878787" stroke-width="2"/>
+<text x="60.0" y="128" fill="#b2182b" font-family="Verdana" font-size="12">1,1</text>
+<g id="association-APPARTIENT">
+	<path d="M 87 136 a 14 14 90 0 1 14 14 V 161 h -92 V 150 a 14 14 90 0 1 14 -14" fill="#bababa" stroke="#bababa" stroke-width="0"/>
+	<path d="M 101 161.0 v 11 a 14 14 90 0 1 -14 14 H 23 a 14 14 90 0 1 -14 -14 V 161.0 H 92" fill="#e0e0e0" stroke="#e0e0e0" stroke-width="0"/>
+	<rect x="9" y="136" width="92" height="50" fill="none" rx="14" stroke="#878787" stroke-width="2"/>
+	<line x1="9" y1="161" x2="101" y2="161" stroke="#878787" stroke-width="1"/>
+	<text x="16" y="153.7" fill="#000000" font-family="Verdana" font-size="12">APPARTIENT</text>
+</g>
+
+<!-- Entity BILLET -->
+<g id="entity-BILLET">
+	<g id="frame-BILLET">
+		<rect x="25" y="9" width="60" height="25" fill="#f4a582" stroke="#f4a582" stroke-width="0"/>
+		<rect x="25" y="34.0" width="60" height="77" fill="#fddbc7" stroke="#fddbc7" stroke-width="0"/>
+		<rect x="25" y="9" width="60" height="102" fill="none" stroke="#d6604d" stroke-width="2"/>
+		<line x1="25" y1="34" x2="85" y2="34" stroke="#d6604d" stroke-width="1"/>
+	</g>
+	<text x="33" y="26.7" fill="#000000" font-family="Verdana" font-size="12">BILLET</text>
+	<text x="30" y="51.7" fill="#000000" font-family="Verdana" font-size="12">slug</text>
+	<line x1="30" y1="54" x2="56" y2="54" stroke="#000000" stroke-width="1"/>
+	<text x="30" y="68.8" fill="#000000" font-family="Verdana" font-size="12">titre</text>
+	<text x="30" y="85.8" fill="#000000" font-family="Verdana" font-size="12">extrait</text>
+	<text x="30" y="102.8" fill="#000000" font-family="Verdana" font-size="12">contenu</text>
+</g>
+
+<!-- Entity CATEGORIE -->
+<g id="entity-CATEGORIE">
+	<g id="frame-CATEGORIE">
+		<rect x="133" y="127" width="82" height="25" fill="#f4a582" stroke="#f4a582" stroke-width="0"/>
+		<rect x="133" y="152.0" width="82" height="43" fill="#fddbc7" stroke="#fddbc7" stroke-width="0"/>
+		<rect x="133" y="127" width="82" height="68" fill="none" stroke="#d6604d" stroke-width="2"/>
+		<line x1="133" y1="152" x2="215" y2="152" stroke="#d6604d" stroke-width="1"/>
+	</g>
+	<text x="138" y="144.7" fill="#000000" font-family="Verdana" font-size="12">CATEGORIE</text>
+	<text x="138" y="169.8" fill="#000000" font-family="Verdana" font-size="12">label</text>
+	<line x1="138" y1="172" x2="167" y2="172" stroke="#000000" stroke-width="1"/>
+	<text x="138" y="186.8" fill="#000000" font-family="Verdana" font-size="12">route</text>
+</g>
+</svg>
