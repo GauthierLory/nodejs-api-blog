@@ -56,6 +56,8 @@ module.exports = {
      * @param {*} response 
      */
     async createPost(request, response) {
-
+        const postData = request.body;
+        const post = await postDataMapper.insertPost(postData);
+        response.status(201).json({ data: post });
     },
 }

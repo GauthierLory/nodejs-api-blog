@@ -40,5 +40,20 @@ module.exports = {
                                         ORDER BY id`, [categoryId]);
 
         return result.rows;
+    },
+
+    async insertPost(post) {
+        const result = await client.query(`
+            INSERT INTO post(title, slug, content, excerpt, category_id)
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING *
+        `, [post.title, post.slug, post.content, post.excerpt, post.category_id]);
+
+        // Avec PG on peut ajouter un returning après un INSERT
+        // Normalement une requête INSERT ne renvoit pas d'information
+        // Mais avec le RETUNING la commande renverra les lignes inséré
+        // (comme si on avait fait un SELECT dessus)
+
+        return result.rows[0];
     }
 };
