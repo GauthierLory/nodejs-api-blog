@@ -11,6 +11,7 @@
   "devDependencies": {},
   "scripts": {
     "start": "node app.js",
+    "import": "node import/import.js",
     "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
