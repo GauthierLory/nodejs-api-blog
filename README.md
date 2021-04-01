@@ -25,7 +25,8 @@ Node.Js  **v14.15.1**
 La configuration se trouve a `la racine`. Veuillez créer votre propre fichier `.env`. Vous pouvez trouver un exemple de fichier `.env` dans `.env.example`.
 
  ## Fonctionnalités
- - [ ] Créer un post 
+ - [x] Créer un post
+   - [x] Validation avec JOI
  - [x] Afficher la liste des posts
  - [x] Afficher le post par son id
  - [x] Afficher la liste des posts en fonction de la category
