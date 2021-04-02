@@ -1,0 +1,12 @@
+[
+    {
+        "visitor": "user1@mail.com",
+        "post": "Angular, une fausse bonne idée ?",
+        "content": "Ceci est un commentaire"
+    },
+    {
+        "visitor": "user2@mail.com",
+        "post": "React, une vraie bonne idée ?",
+        "content": "Ceci est un commentaire 2"
+    }
+]
