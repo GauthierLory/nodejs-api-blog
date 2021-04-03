@@ -5,13 +5,13 @@ const { Client } = require('pg');
 
 const importer = require('../import/v2/importer');
 
-const client = new Client(process.env.TEST_DATABASE_URL);
+const client = new Client(process.env.DATABASE_URL);
 
-describe('Import system', () => {
-    before(async () => {
-        await client.connect();
+    describe('Import system', () => {
+        before(async () => {
+            await client.connect();
 
-        importer.client = client;
+            importer.client = client;
     });
 
     describe('clearDataBase()', () => {
@@ -23,7 +23,7 @@ describe('Import system', () => {
         });
         it('should remove all data in database', async () => {
             await importer.clearDataBase();
-            const result = await client.query('SELECT * FROM category');
+            const result = await client.query('SELECT * FROM category, post, visitor, comment');
             result.rowCount.should.be.eql(0);
         });
     });
@@ -49,6 +49,28 @@ describe('Import system', () => {
             result.rowCount.should.be.eql(1);
         });
     });
+
+    describe('extractVisitorData()', () => {
+        it('should return an orderd array with visitor information', async () => {
+            importer.extractVisitorData({
+                email: "user3@mail.com",
+                password: "password"
+            }).should.be.eql(["user3@mail.com","password"]);
+        });
+    });
+
+    describe('createVisitor()', () => {
+        it('should add a visitor in database', async () => {
+            await importer.createVisitor({
+                email: "user3@mail.com",
+                password: "password"
+            });
+
+            const result = await client.query(`SELECT * FROM visitor WHERE email = 'user3@mail.com' AND password = 'password'`);
+            result.rowCount.should.be.eql(1);
+        });
+    })
+
 
     describe('extractPostData()', () => {
         it('should return un orderd array with Post information', async () => {
@@ -132,7 +154,14 @@ describe('Import system', () => {
                 }
             ];
 
-            await importer.run(categories, posts);
+            const visitors = [
+                {
+                    email: "user1@mail.com",
+                    password: "password"
+                }
+            ];
+
+            await importer.run(categories, posts, visitors);
 
             let result = await client.query('SELECT * FROM post');
             result.rowCount.should.be.eql(3);

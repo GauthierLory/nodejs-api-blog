@@ -3,7 +3,7 @@ module.exports = {
     client: null,
 
     async clearDataBase() {
-        await this.client.query('TRUNCATE TABLE category, post RESTART IDENTITY;')
+        await this.client.query('TRUNCATE TABLE category, post, visitor, comment RESTART IDENTITY;')
     },
 
     async createCategory(categoryData) {
@@ -13,6 +13,15 @@ module.exports = {
 
     extractCategoryData(categoryData) {
         return [categoryData.label, categoryData.route];
+    },
+
+    async createVisitor(visitorData) {
+        const result = await this.client.query(`INSERT INTO visitor(email, password) VALUES ($1, $2)`
+            ,this.extractVisitorData(visitorData));
+    },
+
+    extractVisitorData(visitorData){
+        return [visitorData.email, visitorData.password]
     },
 
     async createPost(postData) {
@@ -28,7 +37,7 @@ module.exports = {
         return [postData.slug, postData.title, postData.excerpt, postData.content, postData.category]
     },
 
-    async run(categoriesList, postsList) {
+    async run(categoriesList, postsList, visitorList) {
         await this.clearDataBase();
 
         for (let category of categoriesList) {
@@ -38,6 +47,10 @@ module.exports = {
         for (let post of postsList) {
             await this.createPost(post);
         }
+
+        // for (let visitor of visitorList) {
+        //     await this.createVisitor(visitor);
+        // }
 
     }
 };
