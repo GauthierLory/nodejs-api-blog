@@ -30,9 +30,9 @@ La configuration se trouve a `la racine`. Veuillez créer votre propre fichier `
  - [x] Afficher la liste des posts
  - [x] Afficher le post par son id
  - [x] Afficher la liste des posts en fonction de la category
- - [ ] Créer un commentaire sur un post
- - [ ] Afficher les commentaires d'un post
- - [ ] Afficher un commentaire en fonction de son id
+ - [x] Créer un commentaire sur un post
+ - [x] Afficher les commentaires d'un post
+ - [x] Afficher un commentaire en fonction de son id
  - [x] Afficher la liste des catégories
  - [x] Créer un utilisateur
  - [x] Afficher les informations d'un utilisateur
