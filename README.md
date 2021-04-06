@@ -34,8 +34,9 @@ La configuration se trouve a `la racine`. Veuillez créer votre propre fichier `
  - [ ] Afficher les commentaires d'un post
  - [ ] Afficher un commentaire en fonction de son id
  - [x] Afficher la liste des catégories
- - [ ] Créer un utilisateur
- - [ ] Afficher les informations d'un utilisateur
+ - [x] Créer un utilisateur
+ - [x] Afficher les informations d'un utilisateur
+ - [x] Afficher les informations des utilisateur
  
 ## Requêtes
 |Method | Routes  | Description |
@@ -48,7 +49,8 @@ La configuration se trouve a `la racine`. Veuillez créer votre propre fichier `
 |GET|/posts/:id/comments|Afficher les commentaires d'un post|
 |GET|/comments/:id | Afficher un commentaire en fonction de son id |
 |GET|/categories|Afficher la liste des catégories |
-|POST| /users  | Créer un utilisateur |
-|GET| /users/ | Afficher les informations d'un utilisateur |
+|GET| /visitors/ | Afficher les informations des utilisateurs |
+|POST| /visitors  | Créer un utilisateur |
+|GET| /visitors/:id | Afficher les informations d'un utilisateur |
 
 

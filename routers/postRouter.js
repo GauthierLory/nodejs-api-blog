@@ -6,6 +6,8 @@ const postsController = require('../controllers/postsController')
 
 router.get('/', postsController.listPosts);
 router.get('/:postId(\\d+)', postsController.postById);
+router.get('/:postId(\\d+)/comment', postsController.commentByPostId);
+router.post('/:postId(\\d+)', postsController.createComment)
 router.get('/category/:categoryId(\\d+)', postsController.postByCategoryId);
 router.post('/', validationMiddlewares.validateBody(postSchema), postsController.createPost);
 

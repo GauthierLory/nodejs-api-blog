@@ -55,5 +55,33 @@ module.exports = {
         // (comme si on avait fait un SELECT dessus)
 
         return result.rows[0];
+    },
+
+    /**
+     * 
+     * @param {text} comment 
+     */
+    async insertComment(comment){
+        const result = await client.query(`
+        INSERT INTO comment(content, visitor_id, post_id)
+        VALUES($1, $2, $3)
+        RETURNING *
+        `, [comment.content, comment.visitor_id, comment.post_id]);
+
+        return result.rows[0];
+    },
+
+    /**
+     * @param {number} - postId
+     */
+    async findCommentByPost(postId){
+        const result = await client.query(`SELECT comment.content, comment.visitor_id, post.title, post.id
+                FROM comment, post 
+                WHERE post.id = $1`, [postId]);
+        if (result.rowCount === 0) {
+        return undefined;
+        }
+
+        return result.rows;
     }
 };

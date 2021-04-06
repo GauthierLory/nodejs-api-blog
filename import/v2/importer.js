@@ -48,9 +48,9 @@ module.exports = {
             await this.createPost(post);
         }
 
-        // for (let visitor of visitorList) {
-        //     await this.createVisitor(visitor);
-        // }
+        for (let visitor of visitorList) {
+            await this.createVisitor(visitor);
+        }
 
     }
 };

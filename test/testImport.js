@@ -18,7 +18,7 @@ const client = new Client(process.env.DATABASE_URL);
         before(async () => {
             await client.query(`INSERT INTO category(route, label)
                                 VALUES ('coucou', 'pan'),
-                                       ('riri', 'fifi'),
+                                       ('riri', 'fifi   '),
                                        ('foo', 'bar')`);
         });
         it('should remove all data in database', async () => {
@@ -70,7 +70,6 @@ const client = new Client(process.env.DATABASE_URL);
             result.rowCount.should.be.eql(1);
         });
     })
-
 
     describe('extractPostData()', () => {
         it('should return un orderd array with Post information', async () => {

@@ -60,4 +60,26 @@ module.exports = {
         const post = await postDataMapper.insertPost(postData);
         response.status(201).json({ data: post });
     },
+
+    /**
+     * Permet la création d'un commentaire sur un post
+     * @param {*} request 
+     * @param {*} response 
+     */
+    async createComment(request, response){
+        const commentData = request.body;
+        const comment = await postDataMapper.insertComment(commentData);
+        response.status(201).json({ data: comment })
+    },
+
+    async commentByPostId(request, response){
+        const { postId } = request.params;
+        const comment = await postDataMapper.findCommentByPost(postId);
+
+         if (!comment) {
+            response.status(404).json({ error: "Not found" });
+        } else {
+            response.json({ data: comment });
+        }
+    }
 }
