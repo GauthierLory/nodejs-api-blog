@@ -6,11 +6,8 @@ module.exports = {
      * Retourne la liste de tt les posts
      */
     async findAllPosts() {
-        const result = await client.query(`SELECT *
-                                            FROM post
-                                        ORDER BY id`);
-
-        return result.rows;
+        const result = await client.post.findMany();
+        return result;
     },
 
     /**
@@ -18,15 +15,12 @@ module.exports = {
      * @param {number} postId - Un id de post dans la base de données
      */
     async findPostById(postId) {
-        const result = await client.query(`SELECT *
-                                            FROM post
-                                        WHERE id = $1`, [postId]);
+        const id = +postId;
+        const result = await client.post.findFirst({
+            where : { id : id }
+        })
 
-        if (result.rowCount === 0) {
-            return undefined;
-        }
-
-        return result.rows[0];
+        return result;
     },
 
     /**
@@ -34,27 +28,17 @@ module.exports = {
      * @param {number} categoryId - Un id de category dans la base de données
      */
     async findPostsByCategoryId(categoryId) {
-        const result = await client.query(`SELECT *
-                                            FROM post
-                                           WHERE category_id = $1
-                                        ORDER BY id`, [categoryId]);
+        const id = +categoryId;
+        const result = await client.post.findMany({
+            where : { categoryId : id }
+        })
+        return result;
 
-        return result.rows;
     },
 
     async insertPost(post) {
-        const result = await client.query(`
-            INSERT INTO post(title, slug, content, excerpt, category_id)
-            VALUES ($1, $2, $3, $4, $5)
-            RETURNING *
-        `, [post.title, post.slug, post.content, post.excerpt, post.category_id]);
-
-        // Avec PG on peut ajouter un returning après un INSERT
-        // Normalement une requête INSERT ne renvoit pas d'information
-        // Mais avec le RETUNING la commande renverra les lignes inséré
-        // (comme si on avait fait un SELECT dessus)
-
-        return result.rows[0];
+        const result = await client.post.create({ data: post })
+        return result
     },
 
     /**
@@ -62,26 +46,18 @@ module.exports = {
      * @param {text} comment 
      */
     async insertComment(comment){
-        const result = await client.query(`
-        INSERT INTO comment(content, visitor_id, post_id)
-        VALUES($1, $2, $3)
-        RETURNING *
-        `, [comment.content, comment.visitor_id, comment.post_id]);
-
-        return result.rows[0];
+        const result = await client.comment.create({ data: comment })
+        return result
     },
 
     /**
      * @param {number} - postId
      */
     async findCommentByPost(postId){
-        const result = await client.query(`SELECT comment.content, comment.visitor_id, post.title, post.id
-                FROM comment, post 
-                WHERE post.id = $1`, [postId]);
-        if (result.rowCount === 0) {
-        return undefined;
-        }
-
-        return result.rows;
+        const id = +postId;
+        const result = await client.comment.findMany({
+            where : { post_id : id }
+        })
+        return result;
     }
 };

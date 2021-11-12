@@ -73,7 +73,7 @@ const client = new Client({ connectionString: process.env.DATABASE_URL });
     for (let comment of comments) {
         console.log(`Insertion du comment :`);
         await client.query(`INSERT INTO
-            comment(visitor_id, post_id, content)
+            comment(author_id, post_id, content)
             VALUES($1, $2, $3)`
             ,[
                 visitorIdMap[comment.visitor],
