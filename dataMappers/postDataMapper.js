@@ -30,20 +30,36 @@ module.exports = {
     async findPostsByCategoryId(categoryId) {
         const id = +categoryId;
         const result = await client.post.findMany({
-            where : { categoryId : id }
+            where : { category_id : id }
         })
         return result;
 
     },
 
+    /**
+     * @param post
+     * @returns {Promise<*>}
+     */
     async insertPost(post) {
         const result = await client.post.create({ data: post })
         return result
     },
 
     /**
-     * 
-     * @param {text} comment 
+     * @param post
+     * @returns {Promise<*>}
+     */
+    async editPost(postId, post) {
+        const id = +postId;
+        const result = await client.post.update({
+            where: { id },
+            data: post
+        })
+        return result
+    },
+
+    /**
+     * @param {text} comment
      */
     async insertComment(comment){
         const result = await client.comment.create({ data: comment })

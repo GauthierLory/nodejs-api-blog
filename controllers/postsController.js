@@ -37,14 +37,13 @@ module.exports = {
      * @param {*} response 
      */
     async postByCategoryId(request, response) {
+
         const { categoryId } = request.params;
+        const posts = await postDataMapper.findPostsByCategoryId(categoryId);
 
-        const category = await categoryDataMapper.findCategoryById(categoryId);
-
-        if (!category) {
-            response.status(404).json({ error: "Not found" });
+        if (!posts.length) {
+            response.status(404).json({ error: 'not found' });
         } else {
-            const posts = await postDataMapper.findPostsByCategoryId(categoryId);
             response.json({ data: posts });
         }
 
@@ -62,9 +61,28 @@ module.exports = {
     },
 
     /**
+     * Récupère le post par son id pour le modifier
+     * @param {*} request
+     * @param {*} response
+     */
+    async editPost(request, response) {
+        const { postId } = request.params;
+        const post = await postDataMapper.findPostById(postId);
+
+        if (!post) {
+            response.status(404).json({ error: "Not found" });
+        } else {
+            const postData = request.body;
+            const post = await postDataMapper.editPost(postId, postData);
+            response.status(201).json({ data: post });
+        }
+
+    },
+
+    /**
      * Permet la création d'un commentaire sur un post
-     * @param {*} request 
-     * @param {*} response 
+     * @param {*} request
+     * @param {*} response
      */
     async createComment(request, response){
         const commentData = request.body;
@@ -72,6 +90,11 @@ module.exports = {
         response.status(201).json({ data: comment })
     },
 
+    /**
+     * @param request
+     * @param response
+     * @returns {Promise<void>}
+     */
     async commentByPostId(request, response){
         const { postId } = request.params;
         const comment = await postDataMapper.findCommentByPost(postId);
