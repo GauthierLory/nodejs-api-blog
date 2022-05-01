@@ -39,9 +39,14 @@ module.exports = {
      * @param {*} response 
      */
     async createVisitor(request, response) {
-        const visitorData = request.body;
-        const visitor = await visitorDataMapper.insertVisitor(visitorData);
-        response.status(201).json({ data: visitor });
+
+        try {
+            const visitorData = request.body;
+            const visitor = await visitorDataMapper.insertVisitor(visitorData);
+            response.status(201).json({ data: visitor });
+        }    catch (e) {
+            response.status(404).json({ error: e });
+        }
     },
 
 }

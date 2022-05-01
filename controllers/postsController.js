@@ -1,5 +1,6 @@
 const postDataMapper = require('../dataMappers/postDataMapper');
 const categoryDataMapper = require('../dataMappers/categoryDataMapper');
+const commentDataMapper = require("../dataMappers/commentDataMapper");
 
 module.exports = {
 
@@ -33,18 +34,17 @@ module.exports = {
 
     /**
      * Récupère la liste des posts par l'id de la category
-     * @param {*} request 
-     * @param {*} response 
+     * @param {*} request
+     * @param {*} response
      */
     async postByCategoryId(request, response) {
+
         const { categoryId } = request.params;
+        const posts = await postDataMapper.findPostsByCategoryId(categoryId);
 
-        const category = await categoryDataMapper.findCategoryById(categoryId);
-
-        if (!category) {
-            response.status(404).json({ error: "Not found" });
+        if (!posts.length) {
+            response.status(404).json({ error: 'not found' });
         } else {
-            const posts = await postDataMapper.findPostsByCategoryId(categoryId);
             response.json({ data: posts });
         }
 
@@ -62,24 +62,44 @@ module.exports = {
     },
 
     /**
-     * Permet la création d'un commentaire sur un post
-     * @param {*} request 
-     * @param {*} response 
+     * Récupère le post par son id pour le modifier
+     * @param {*} request
+     * @param {*} response
      */
-    async createComment(request, response){
-        const commentData = request.body;
-        const comment = await postDataMapper.insertComment(commentData);
-        response.status(201).json({ data: comment })
-    },
-
-    async commentByPostId(request, response){
+    async editPost(request, response) {
         const { postId } = request.params;
-        const comment = await postDataMapper.findCommentByPost(postId);
+        const post = await postDataMapper.findPostById(postId);
 
-         if (!comment) {
+        if (!post) {
             response.status(404).json({ error: "Not found" });
         } else {
-            response.json({ data: comment });
+            const postData = request.body;
+            const post = await postDataMapper.editPost(postId, postData);
+            response.status(201).json({ data: post });
+        }
+
+    },
+
+    /**
+     * Permet la suppression d'un commentaire
+     * @param request
+     * @param response
+     * @returns {Promise<void>}
+     */
+    async deleteById(request, response){
+        const { postId } = request.params;
+        const postExist = await postDataMapper.findPostById(postId);
+
+        if (postExist) {
+            const comments = await commentDataMapper.findCommentsByPostId(postId);
+
+            comments.forEach( comment => {
+               commentDataMapper.deleteById(comment.id);
+            })
+            await postDataMapper.deleteById(postId);
+            response.status(200).json({ message: 'done' });
+        } else {
+            response.status(404).json({ message: 'Not found' });
         }
     }
 }
