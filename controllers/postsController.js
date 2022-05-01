@@ -1,5 +1,6 @@
 const postDataMapper = require('../dataMappers/postDataMapper');
 const categoryDataMapper = require('../dataMappers/categoryDataMapper');
+const commentDataMapper = require("../dataMappers/commentDataMapper");
 
 module.exports = {
 
@@ -33,8 +34,8 @@ module.exports = {
 
     /**
      * Récupère la liste des posts par l'id de la category
-     * @param {*} request 
-     * @param {*} response 
+     * @param {*} request
+     * @param {*} response
      */
     async postByCategoryId(request, response) {
 
@@ -80,29 +81,25 @@ module.exports = {
     },
 
     /**
-     * Permet la création d'un commentaire sur un post
-     * @param {*} request
-     * @param {*} response
-     */
-    async createComment(request, response){
-        const commentData = request.body;
-        const comment = await postDataMapper.insertComment(commentData);
-        response.status(201).json({ data: comment })
-    },
-
-    /**
+     * Permet la suppression d'un commentaire
      * @param request
      * @param response
      * @returns {Promise<void>}
      */
-    async commentByPostId(request, response){
+    async deleteById(request, response){
         const { postId } = request.params;
-        const comment = await postDataMapper.findCommentByPost(postId);
+        const postExist = await postDataMapper.findPostById(postId);
 
-         if (!comment) {
-            response.status(404).json({ error: "Not found" });
+        if (postExist) {
+            const comments = await commentDataMapper.findCommentsByPostId(postId);
+
+            comments.forEach( comment => {
+               commentDataMapper.deleteById(comment.id);
+            })
+            await postDataMapper.deleteById(postId);
+            response.status(200).json({ message: 'done' });
         } else {
-            response.json({ data: comment });
+            response.status(404).json({ message: 'Not found' });
         }
     }
 }

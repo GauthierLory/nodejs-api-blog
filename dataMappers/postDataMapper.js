@@ -58,22 +58,12 @@ module.exports = {
         return result
     },
 
-    /**
-     * @param {text} comment
-     */
-    async insertComment(comment){
-        const result = await client.comment.create({ data: comment })
-        return result
-    },
 
-    /**
-     * @param {number} - postId
-     */
-    async findCommentByPost(postId){
+    async deleteById(postId) {
         const id = +postId;
-        const result = await client.comment.findMany({
-            where : { post_id : id }
+        const result = await client.post.delete({
+            where: { id }
         })
-        return result;
+        return result
     }
 };
