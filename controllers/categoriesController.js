@@ -4,23 +4,42 @@ module.exports = {
 
     /**
      * Liste l'ensemble des categories
-     * @param {*} _ 
-     * @param {*} response 
+     * @param _
+     * @param response
+     * @param next
+     * @returns {Promise<void>}
      */
-    async listCategories(_, response) {
-        const categories = await categoryDataMapper.findAllCategories();
-        response.json({ data: categories });
+    async listCategories(_, response, next) {
+        try {
+            const categories = await categoryDataMapper.findAllCategories();
+            if(categories) {
+                response.json({ data: categories });
+            } else {
+                response.status(404).json({ error: "Categories not found" });
+            }
+        } catch(error) {
+            next(error)
+        }
     },
 
-    async categoryById (request, response) {
-        const { categoryId } = request.params;
-        const categories = await categoryDataMapper.findCategoryById(categoryId)
-
-        // Si post vaut null ou undefined
-        if (!categories) {
-            response.status(404).json({ error: "Not found" });
-        } else {
-            response.json({ data: categories });
+    /**
+     * Récupère la categorie par son id
+     * @param request
+     * @param response
+     * @param next
+     * @returns {Promise<void>}
+     */
+    async categoryById (request, response, next) {
+        try {
+            const { categoryId } = request.params;
+            const category = await categoryDataMapper.findCategoryById(categoryId)
+            if (category) {
+                response.json({ data: category });
+            } else {
+                response.status(404).json({ error: "Category not found" });
+            }
+        } catch(error) {
+            next(error)
         }
     }
 }

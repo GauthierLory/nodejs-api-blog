@@ -2,50 +2,66 @@ const visitorDataMapper = require('../dataMappers/visitorDataMapper');
 
 
 module.exports = {
-    
+
     /**
      * Récupère l'ensemble des visitors
-     * @param {*} _ 
-     * @param {*} response 
+     * @param {*} _
+     * @param {*} response
+     * @param next
+     * @returns {Promise<void>}
      */
-    async listVisitors(_, response) {
-        const visitors = await visitorDataMapper.findAllVisitors();
-        response.json({ data: visitors });
+    async listVisitors(_, response, next) {
+        try {
+            const visitors = await visitorDataMapper.findAllVisitors();
+            if (visitors) {
+                response.json({ data: visitors });
+            }else {
+                response.status(404).json({ error: "Visitors not found" });
+            }
+        } catch (error) {
+            next(error)
+        }
     },
 
     /**
      * Récupère le visitor par son id
-     * @param {*} request 
-     * @param {*} response 
+     * @param {*} request
+     * @param {*} response
+     * @param next
+     * @returns {Promise<void>}
      */
-    async visitorById(request, response) {
-
-        const { visitorId } = request.params;
-        const visitor = await visitorDataMapper.findVisitorById(visitorId);
-
-        // Si visitor vaut null ou undefined
-        if (!visitor) {
-            response.status(404).json({ error: "Not found" });
-        } else {
-            response.json({ data: visitor });
+    async visitorById(request, response, next) {
+        try {
+            const { visitorId } = request.params;
+            const visitor = await visitorDataMapper.findVisitorById(visitorId);
+            if (visitor) {
+                response.json({ data: visitor });
+            } else {
+                response.status(404).json({ error: "Visitors not found" });
+            }
+        } catch (error) {
+            next(error)
         }
-
     },
-
 
     /**
      * Permet la création d'un visitor
-     * @param {*} request 
-     * @param {*} response 
+     * @param {*} request
+     * @param {*} response
+     * @param next
+     * @returns {Promise<void>}
      */
-    async createVisitor(request, response) {
-
+    async createVisitor(request, response, next) {
         try {
             const visitorData = request.body;
             const visitor = await visitorDataMapper.insertVisitor(visitorData);
-            response.status(201).json({ data: visitor });
-        }    catch (e) {
-            response.status(404).json({ error: e });
+            if (visitor) {
+                response.status(201).json({ data: visitor });
+            }else {
+                response.status(404).json({ message: "not found" });
+            }
+        }   catch (error) {
+            next(error)
         }
     },
 

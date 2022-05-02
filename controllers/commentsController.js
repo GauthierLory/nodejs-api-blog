@@ -5,107 +5,152 @@ module.exports = {
 
     /**
      * Récupère l'ensemble des commentaires
-     * @param {*} _
-     * @param {*} response
+     * @param _
+     * @param response
+     * @param next
+     * @returns {Promise<void>}
      */
-    async listComments(_, response) {
-        const comments = await commentDataMapper.findAllComments();
-        response.json({ data: comments });
+    async listComments(_, response, next) {
+        try {
+            const comments = await commentDataMapper.findAllComments();
+            if (comments) {
+                response.json({ data: comments });
+            } else {
+                response.status(400).json("Comments not found")
+            }
+        } catch (error) {
+            next(error)
+        }
     },
 
     /**
      * Récupère le commentaire par son id
      * @param {*} request
      * @param {*} response
+     * @param next
+     * @returns {Promise<void>}
      */
-    async commentById(request, response) {
-        const { commentId } = request.params;
-        const post = await commentDataMapper.findCommentById(commentId);
-
-        // Si post vaut null ou undefined
-        if (!post) {
-            response.status(404).json({ error: "Not found" });
-        } else {
-            response.json({ data: post });
+    async commentById(request, response, next) {
+        try {
+            const { commentId } = request.params;
+            const post = await commentDataMapper.findCommentById(commentId);
+            if (!post) {
+                // console.log(post)
+                response.status(404).json({ error: "Comment not found" });
+            } else {
+                response.json({ data: post });
+            }
+        } catch (error) {
+            next(error)
         }
-
     },
 
     /**
      * Récupère la liste des commentaires par l'id du post
      * @param {*} request
      * @param {*} response
+     * @param next
+     * @returns {Promise<void>}
      */
-    async commentsByPostId(request, response) {
-
-        const { postId } = request.params;
-        const comments = await commentDataMapper.findCommentsByPostId(postId);
-
-        if (!comments.length) {
-            response.status(404).json({ error: 'not found' });
-        } else {
-            response.json({ data: comments });
+    async commentsByPostId(request, response, next) {
+        try {
+            const { postId } = request.params;
+            const post = await postDataMapper.findPostById(postId);
+            if (post) {
+                const comments = await commentDataMapper.findCommentsByPostId(postId);
+                response.json({ data: comments });
+            } else {
+                response.status(404).json({ error: 'Comments not found' });
+            }
+        } catch (error) {
+            next(error)
         }
-
     },
 
     /**
      * Permet la création d'un post
      * @param {*} request
      * @param {*} response
+     * @param next
+     * @returns {Promise<void>}
      */
-    async createComment(request, response) {
-        const commentData = request.body;
-
-        const comment = await commentDataMapper.insertComment(commentData);
-        response.status(201).json({ data: comment });
+    async createComment(request, response, next) {
+        try {
+            const { postId } = request.params;
+            const commentData = request.body;
+            const post = await postDataMapper.findPostById(postId);
+            if (post) {
+                const comment = await commentDataMapper.insertComment(commentData);
+                response.json({ data: comment });
+            } else {
+                response.status(404).json({ error: 'Comment not found' });
+            }
+        } catch (error) {
+            next(error)
+        }
     },
 
     /**
      * Récupère le commentaire par son id pour le modifier
      * @param {*} request
      * @param {*} response
+     * @param next
+     * @returns {Promise<void>}
      */
-    async editComment(request, response) {
-        const { commentId } = request.params;
-        const comment = await commentDataMapper.findCommentById(commentId);
-
-        if (!comment) {
-            response.status(404).json({ error: "Not found" });
-        } else {
-            const commentData = request.body;
-            const comment = await commentDataMapper.editComment(commentId, commentData);
-            response.status(201).json({ data: comment });
+    async editComment(request, response, next) {
+        try {
+            const { commentId } = request.params;
+            const comment = await commentDataMapper.findCommentById(commentId);
+            if (comment) {
+                const commentData = request.body;
+                const editComment = await commentDataMapper.editComment(commentId, commentData);
+                response.status(201).json({ data: editComment });
+            } else {
+                response.status(404).json({ error: "Comment not found" });
+            }
+        } catch (error) {
+            next(error)
         }
-
     },
 
     /**
      * Permet la création d'un commentaire sur un post
      * @param {*} request
      * @param {*} response
+     * @param next
+     * @returns {Promise<void>}
      */
-    async createComment(request, response){
-        const commentData = request.body;
-        const comment = await commentDataMapper.insertComment(commentData);
-        response.status(201).json({ data: comment })
+    async createComment(request, response, next){
+        try {
+            const commentData = request.body;
+            const comment = await commentDataMapper.insertComment(commentData);
+            response.status(201).json({ data: comment })
+        } catch (error) {
+            next(error)
+        }
     },
 
     /**
      * Permet la suppression d'un commentaire
      * @param request
      * @param response
+     * @param next
      * @returns {Promise<void>}
      */
-    async deleteById(request, response){
+    async deleteById(request, response, next){
         const { commentId } = request.params;
-        const commentExist = await commentDataMapper.findCommentById(commentId);
+        try {
+            const commentExist = await commentDataMapper.findCommentById(commentId);
 
-        if (commentExist) {
-            await commentDataMapper.deleteById(commentId);
-            response.status(200).json({ message: 'done' });
-        } else {
-            response.status(404).json({ message: 'Not found' });
+            if (commentExist) {
+                await commentDataMapper.deleteById(commentId);
+                response.status(200).json({ message: 'Deleted' });
+            } else {
+                response.status(404).json({ message: 'Comment not found' });
+            }
+        } catch (error) {
+            next(error)
         }
     }
+
 }

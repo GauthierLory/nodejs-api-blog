@@ -19,7 +19,6 @@ module.exports = {
         const result = await client.post.findFirst({
             where : { id : id }
         })
-
         return result;
     },
 
@@ -28,12 +27,13 @@ module.exports = {
      * @param {number} categoryId - Un id de category dans la base de données
      */
     async findPostsByCategoryId(categoryId) {
+        console.log(typeof(categoryId))
         const id = +categoryId;
+        console.log(typeof(id))
         const result = await client.post.findMany({
             where : { category_id : id }
         })
         return result;
-
     },
 
     /**
@@ -46,6 +46,7 @@ module.exports = {
     },
 
     /**
+     * @param postId
      * @param post
      * @returns {Promise<*>}
      */
@@ -59,6 +60,10 @@ module.exports = {
     },
 
 
+    /**
+     * @param postId
+     * @returns {Promise<*>}
+     */
     async deleteById(postId) {
         const id = +postId;
         const result = await client.post.delete({
