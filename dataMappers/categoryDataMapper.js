@@ -21,6 +21,5 @@ module.exports = {
             where: {id : id}
         })
         return result;
-
     }
 }

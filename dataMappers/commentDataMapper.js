@@ -3,7 +3,8 @@ const client = require('./client');
 module.exports = {
 
     /**
-     * Retourne la liste de tt les posts
+     * Retourne la liste de tout les comments
+     * @returns {Promise<*>}
      */
     async findAllComments() {
         const result = await client.comment.findMany();
@@ -11,8 +12,9 @@ module.exports = {
     },
 
     /**
-     * Retourner le post pour l'id donné
-     * @param {number} postId - Un id de post dans la base de données
+     * Retourner le comment pour l'id donné
+     * @param commentId
+     * @returns {Promise<*>}
      */
     async findCommentById(commentId) {
         const id = +commentId;
@@ -20,35 +22,35 @@ module.exports = {
         const result = await client.comment.findFirst({
             where : { id : id }
         })
-
         return result;
     },
 
     /**
-     * Retourne les posts en fonction de l'id d'une category
-     * @param {number} categoryId - Un id de category dans la base de données
+     * Retourne les comments en fonction de l'id d'un post
+     * @param postId
+     * @returns {Promise<*>}
      */
     async findCommentsByPostId(postId) {
         const id = +postId;
         const result = await client.comment.findMany({
-            where : { post_id : id }
+            where : {
+                post : { id }
+            }
         })
         return result;
-
     },
 
     /**
-     * @param post
+     * @param comment
      * @returns {Promise<*>}
      */
     async insertComment(comment) {
-        console.log(comment)
         const result = await client.comment.create({ data: comment })
         return result
     },
 
     /**
-     * @param post
+     * @param comment
      * @returns {Promise<*>}
      */
     async editComment(commentId, comment) {
@@ -60,6 +62,10 @@ module.exports = {
         return result
     },
 
+    /**
+     * @param commentId
+     * @returns {Promise<*>}
+     */
     async deleteById(commentId) {
         const id = +commentId;
         const result = await client.comment.delete({

@@ -9,7 +9,6 @@ router.get('/:postId(\\d+)', postsController.postById);
 router.get('/category/:categoryId(\\d+)', postsController.postByCategoryId);
 router.post('/', validationMiddlewares.validateBody(postSchema), postsController.createPost);
 router.put('/:postId(\\d+)', validationMiddlewares.validateBody(postSchema), postsController.editPost);
-router.get('/:postId(\\d+)', postsController.postById);
 router.delete('/:postId(\\d+)', postsController.deleteById);
 
 module.exports = router;

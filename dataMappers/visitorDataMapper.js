@@ -12,6 +12,8 @@ module.exports = {
 
     /**
      * Retourne un visitor par son id
+     * @param visitorId
+     * @returns {Promise<*>}
      */
     async findVisitorById(visitorId) {
         const id =+ visitorId
@@ -21,8 +23,11 @@ module.exports = {
         return result;
     },
 
+    /**
+     * @param visitor
+     * @returns {Promise<*>}
+     */
     async insertVisitor(visitor) {
-
         const result = await client.visitor.create({ data: visitor});
         return result;
     }
