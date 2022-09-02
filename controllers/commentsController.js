@@ -16,7 +16,7 @@ module.exports = {
             if (comments) {
                 response.json({ data: comments });
             } else {
-                response.status(404).json("Comments not found")
+                response.status(400).json("Comments not found")
             }
         } catch (error) {
             next(error)
