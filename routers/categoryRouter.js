@@ -9,10 +9,6 @@ const router = express.Router();
  * tags:
  *  name: Category
  *  description: The categories managing api
- */
-
-/** 
- * @swagger
  * components:
  *  schemas:
  *      Category:
@@ -51,6 +47,10 @@ const router = express.Router();
  *                              type: array
  *                              items:
  *                                  $ref: '#/components/schemas/Category'
+ *              404:
+ *                  description: The category was not found
+ *              500:
+ *                  description: Some error happened
  */
 router.get('/', categoriesController.listCategories);
 
@@ -76,6 +76,8 @@ router.get('/', categoriesController.listCategories);
  *                              $ref: '#/components/schemas/Category'
  *              404:
  *                  description: The category was not found
+ *              500:
+ *                  description: Some error happened
  */
 router.get('/:categoryId(\\d+)', categoriesController.categoryById);
 
