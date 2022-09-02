@@ -46,6 +46,27 @@ module.exports = {
     },
 
     /**
+     * Récupère le post par son slug
+     * @param request
+     * @param response
+     * @param next
+     * @returns {Promise<void>}
+     */
+    async postBySlug(request, response, next) {
+        try {
+            const { postSlug } = request.params;
+            const post = await postDataMapper.findPostBySlug(postSlug);
+            if (post) {
+                response.json({ data: post });
+            } else {
+                response.status(404).json({ error: "Post not found" });
+            }
+        } catch(error) {
+            next(error);
+        }
+    },
+
+    /**
      * Récupère la liste des posts par l'id de la category
      * @param request
      * @param response
