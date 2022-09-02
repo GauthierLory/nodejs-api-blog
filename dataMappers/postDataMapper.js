@@ -27,9 +27,7 @@ module.exports = {
      * @param {number} categoryId - Un id de category dans la base de données
      */
     async findPostsByCategoryId(categoryId) {
-        console.log(typeof(categoryId))
         const id = +categoryId;
-        console.log(typeof(id))
         const result = await client.post.findMany({
             where : { category_id : id }
         })

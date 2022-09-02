@@ -13,7 +13,7 @@ module.exports = {
         try {
             const categories = await categoryDataMapper.findAllCategories();
             if(categories) {
-                response.json({ data: categories });
+                response.status(200).json({ data: categories });
             } else {
                 response.status(404).json({ error: "Categories not found" });
             }
@@ -34,7 +34,7 @@ module.exports = {
             const { categoryId } = request.params;
             const category = await categoryDataMapper.findCategoryById(categoryId)
             if (category) {
-                response.json({ data: category });
+                response.status(200).json({ data: category });
             } else {
                 response.status(404).json({ error: "Category not found" });
             }

@@ -14,7 +14,7 @@ module.exports = {
         try {
             const visitors = await visitorDataMapper.findAllVisitors();
             if (visitors) {
-                response.json({ data: visitors });
+                response.status(200).json({ data: visitors });
             }else {
                 response.status(404).json({ error: "Visitors not found" });
             }
@@ -35,7 +35,7 @@ module.exports = {
             const { visitorId } = request.params;
             const visitor = await visitorDataMapper.findVisitorById(visitorId);
             if (visitor) {
-                response.json({ data: visitor });
+                response.status(200).json({ data: visitor });
             } else {
                 response.status(404).json({ error: "Visitors not found" });
             }

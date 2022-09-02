@@ -16,7 +16,7 @@ module.exports = {
             if (comments) {
                 response.json({ data: comments });
             } else {
-                response.status(400).json("Comments not found")
+                response.status(404).json("Comments not found")
             }
         } catch (error) {
             next(error)
@@ -35,7 +35,6 @@ module.exports = {
             const { commentId } = request.params;
             const post = await commentDataMapper.findCommentById(commentId);
             if (!post) {
-                // console.log(post)
                 response.status(404).json({ error: "Comment not found" });
             } else {
                 response.json({ data: post });

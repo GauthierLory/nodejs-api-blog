@@ -18,7 +18,6 @@ module.exports = {
      */
     async findCommentById(commentId) {
         const id = +commentId;
-        console.log(typeof(id))
         const result = await client.comment.findFirst({
             where : { id : id }
         })

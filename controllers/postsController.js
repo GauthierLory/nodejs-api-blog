@@ -36,7 +36,28 @@ module.exports = {
             const { postId } = request.params;
             const post = await postDataMapper.findPostById(postId);
             if (post) {
-                response.json({ data: post });
+                response.status(200).json({ data: post });
+            } else {
+                response.status(404).json({ error: "Post not found" });
+            }
+        } catch(error) {
+            next(error);
+        }
+    },
+
+    /**
+     * Récupère le post par son slug
+     * @param request
+     * @param response
+     * @param next
+     * @returns {Promise<void>}
+     */
+    async postBySlug(request, response, next) {
+        try {
+            const { postSlug } = request.params;
+            const post = await postDataMapper.findPostBySlug(postSlug);
+            if (post) {
+                response.status(200).json({ data: post });
             } else {
                 response.status(404).json({ error: "Post not found" });
             }
@@ -58,7 +79,7 @@ module.exports = {
             const category = await categoryDataMapper.findCategoryById(categoryId);
             if (category) {
                 const posts = await postDataMapper.findPostsByCategoryId(categoryId);
-                response.json({ data: posts });
+                response.status(200).json({ data: posts });
             } else {
                 response.status(404).json({ error: 'Posts not found' });
             }
@@ -99,7 +120,7 @@ module.exports = {
             if (post) {
                 const postData = request.body;
                 const post = await postDataMapper.editPost(postId, postData);
-                response.status(201).json({ data: post });
+                response.status(200).json({ data: post });
             } else {
                 response.status(404).json({ error: "Post not found" });
             }
@@ -126,7 +147,7 @@ module.exports = {
                     commentDataMapper.deleteById(comment.id);
                 })
                 await postDataMapper.deleteById(postId);
-                response.status(200).json({ message: 'Deleted' });
+                response.status(204).json({ message: 'Deleted' });
             } else {
                 response.status(404).json({ message: 'Post not found' });
             }
