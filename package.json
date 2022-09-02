@@ -17,7 +17,7 @@
   "devDependencies": {
     "chai": "^4.3.4",
     "mocha": "^8.3.2",
-    "prisma": "^3.4.2",
+    "prisma": "^3.4.2"
   },
   "scripts": {
     "start": "node app.js",
