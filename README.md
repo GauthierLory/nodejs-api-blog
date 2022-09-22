@@ -1,56 +1,57 @@
-# NodeJs-api-blog
-NodeJs-api-blog est un projet pour découvrir le monde des api en nodejs. Il s'agit principalement d'un projet pour apprendre Node.js, Express.js, PostgreSQL et Joi pour la validation .
+# About the project
+NodeJs-api-blog is a project to discover the world of api in Node.js. It is mainly a project to learn Node.js, Express.js, Joi for validation, PostgreSQL and more recently prisma (orm). This project uses the Data Mapper pattern, Sqitch for the database and a router.
 
-## Prérequis
-Vous devez avoir installé Node.js et PostgreSQL et Sqitch si vous souhaitez exécuter l'application en local, de plus il vous faudra créer un utilisateur postgre et une base de donnée.
-
- - CREATE ROLE `user` WITH LOGIN PASSWORD `password`;
- - CREATE DATABASE `database`OWNER `user`;
+# Getting Started
+## Prerequisites
+You must have Node.js and PostgreSQL and Sqitch installed if you want to run the application locally, and you will need to create a postgre user and a database.
 
 Node.Js  **v14.15.1**
 
-## Usage
+This is an example of how to list things you need to use the software and how to install them.
 
-     ~/ git clone https://github.com/GauthierLory/nodejs-api-blog
-     ~/ cd ./ nodejs-api-blog
-     ## Installation les dépendances
-     ~/ npm install
-     ## Demande à sqitch de faire les migrations
-     ~/ sqitch deploy db:pg://*user*:*password*@localhost:5432/*database*
-     ## Petit script pour importer les données json dans postgresql
-     ~/ node import/import.js
-     ## Lance l'application
-     ~/ npm start
+1. Install sqitch (on ubuntu 18.20)
+```bash
+apt-get install sqitch libdbd-pg-perl postgresql-client
+```
 
-La configuration se trouve a `la racine`. Veuillez créer votre propre fichier `.env`. Vous pouvez trouver un exemple de fichier `.env` dans `.env.example`.
+2. Create database
+```bash
+CREATE ROLE user WITH LOGIN PASSWORD 'password';
+CREATE DATABASE ecommerce OWNER 'user';
+```
 
- ## Fonctionnalités
- - [x] Créer un post
-   - [x] Validation avec JOI
- - [x] Afficher la liste des posts
- - [x] Afficher le post par son id
- - [x] Afficher la liste des posts en fonction de la category
- - [x] Créer un commentaire sur un post
- - [x] Afficher les commentaires d'un post
- - [x] Afficher un commentaire en fonction de son id
- - [x] Afficher la liste des catégories
- - [x] Créer un utilisateur
- - [x] Afficher les informations d'un utilisateur
- - [x] Afficher les informations des utilisateur
- 
-## Requêtes
-|Method | Routes  | Description |
-|--|--|--|
-|POST|/posts|Créer un post |
-|GET|/posts|Afficher la liste des posts |
-|GET|/posts/:id|Afficher le post par son id |
-|GET|/posts/category/:id|Afficher la liste des posts en fonction de la category |
-|POST|/posts/:id/comments | Créer un commentaire sur un post |
-|GET|/posts/:id/comments|Afficher les commentaires d'un post|
-|GET|/comments/:id | Afficher un commentaire en fonction de son id |
-|GET|/categories|Afficher la liste des catégories |
-|GET| /visitors/ | Afficher les informations des utilisateurs |
-|POST| /visitors  | Créer un utilisateur |
-|GET| /visitors/:id | Afficher les informations d'un utilisateur |
+## Installation
 
+1. Clone the project
+```bash
+git clone https://github.com/GauthierLory/nodejs-api-blog
+```
+2. install dependencies
+```bash
+cd ./nodejs-api-blog
+npm install
+```
+3. Configure env
 
+The configuration is in the `root`. Please create your own `.env` file.
+
+You can find an example of a `.env` file in `.env.example`.
+
+4. Deploy migrations from sqitch
+```bash
+sqitch deploy db:pg://gauthier:bidiboum91@localhost:5432/ecommerce
+```
+5. Run script database
+```bash
+  ## import data to database
+  node import/import.js
+```
+5. Launch api
+```bash
+npm run dev
+```
+Now you can access it through postman, insomia or others. Or through the the web at typically
+```bash
+### swagger doc
+http://localhost:3000/api-docs/#/
+```
